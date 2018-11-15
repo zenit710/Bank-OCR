@@ -1,2 +1,4 @@
 language: java
 install: ant
+before_install:
+  - cd java
