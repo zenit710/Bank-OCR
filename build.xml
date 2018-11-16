@@ -169,4 +169,18 @@
   <target name="build.modules" depends="init, clean, compile.module.bank-ocr" description="build all modules"/>
   
   <target name="all" depends="build.modules" description="build all"/>
+
+  <target name="test" depends="all">
+    <junit printsummary="on" haltonfailure="yes">
+      <classpath>
+        <path refid="bank-ocr.module.classpath" />
+        <pathelement location="${bank-ocr.testoutput.dir}"/>
+      </classpath>
+      <formatter type="brief" usefile="false" />
+      <batchtest>
+        <fileset dir="test" includes="**/*Test*.java" />
+      </batchtest>
+    </junit>
+  </target>
+
 </project>
