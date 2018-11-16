@@ -52,6 +52,14 @@
     <exclude name="**/?*.aj"/>
   </patternset>
   
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.junit:junit:4.12.classpath">
+    <pathelement location="${basedir}/lib/hamcrest-core-1.3.jar"/>
+    <pathelement location="${basedir}/lib/junit-4.12.jar"/>
+  </path>
+  
   <!-- Modules -->
   
   
@@ -78,15 +86,13 @@
   
   <path id="bank-ocr.module.classpath">
     <pathelement location="${bank-ocr.output.dir}"/>
-    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
-    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.junit:junit:4.12.classpath"/>
   </path>
   
   <path id="bank-ocr.runtime.module.classpath">
     <pathelement location="${bank-ocr.testoutput.dir}"/>
     <pathelement location="${bank-ocr.output.dir}"/>
-    <pathelement location="${path.variable.maven_repository}/junit/junit/4.12/junit-4.12.jar"/>
-    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+    <path refid="library.junit:junit:4.12.classpath"/>
   </path>
   
   
