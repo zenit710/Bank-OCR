@@ -8,14 +8,16 @@ public class AccountValidatorTest {
     @Test
     public void validateValidAccountNumber() {
         String validNumber = "345882865";
-        AccountValidator account = new AccountValidator(new Account(validNumber));
-        assertTrue(account.Validate());
+        AccountValidator validator = new AccountValidator();
+        boolean isValid = validator.validate(new Account(validNumber));
+        assertTrue(isValid);
     }
 
     @Test
     public void validateInvalidAccountNumber() {
         String invalidNumber = "223456789";
-        AccountValidator account = new AccountValidator(new Account(invalidNumber));
-        assertFalse(account.Validate());
+        AccountValidator validator = new AccountValidator();
+        boolean isValid = validator.validate(new Account(invalidNumber));
+        assertFalse(isValid);
     }
 }

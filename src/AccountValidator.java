@@ -1,24 +1,16 @@
 public class AccountValidator {
 
-    private String number;
-    private boolean isValid;
-
-    public AccountValidator(Account account) {
-        this.number = account.getNumber();
+    public boolean validate(Account account) {
+        return validateAccountNumber(account);
     }
 
-    public boolean Validate() {
-        isValid = validateAccountNumber(number);
-        return isValid;
-    }
-
-    private boolean validateAccountNumber(String numberString) {
+    private boolean validateAccountNumber(Account account) {
         int sum = 0;
-        int charIndex = numberString.length() - 1;
+        int charIndex = account.getNumber().length() - 1;
         int position = 1;
 
         while(charIndex >= 0) {
-            int value = Integer.parseInt("" + numberString.charAt(charIndex));
+            int value = Integer.parseInt("" + account.getNumber().charAt(charIndex));
             sum += (value * position);
             charIndex--;
             position++;
