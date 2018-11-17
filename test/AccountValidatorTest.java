@@ -1,9 +1,5 @@
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,15 +8,14 @@ public class AccountValidatorTest {
     @Test
     public void validateValidAccountNumber() {
         String validNumber = "345882865";
-        AccountValidator account = new AccountValidator(validNumber);
-        assertTrue(account.getIsValid());
+        AccountValidator account = new AccountValidator(new Account(validNumber));
+        assertTrue(account.Validate());
     }
 
     @Test
     public void validateInvalidAccountNumber() {
         String invalidNumber = "223456789";
-        AccountValidator account = new AccountValidator(invalidNumber);
-        assertFalse(account.getIsValid());
-        //assertEquals(false, account.getIsValid());
+        AccountValidator account = new AccountValidator(new Account(invalidNumber));
+        assertFalse(account.Validate());
     }
 }
