@@ -10,7 +10,7 @@ public class Account {
     }
 
     public boolean isIllegalNumber() {
-        return false;
+        return number.contains("?");
     }
 
     public boolean isValidNumber() {

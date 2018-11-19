@@ -27,4 +27,20 @@ public class AccountTest {
 
         assertFalse(account.isValidNumber());
     }
+
+    @Test
+    public void isIllegalLegalAccountNumber() {
+        String validNumber = "345882865";
+        Account account = new Account(validNumber);
+
+        assertFalse(account.isIllegalNumber());
+    }
+
+    @Test
+    public void isIllegalIllegalAccountNumber() {
+        String invalidNumber = "2234?6789";
+        Account account = new Account(invalidNumber);
+
+        assertTrue(account.isIllegalNumber());
+    }
 }
