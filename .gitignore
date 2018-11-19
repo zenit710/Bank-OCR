@@ -4,3 +4,4 @@ build.properties
 /out
 /dist
 /results
+/test/results

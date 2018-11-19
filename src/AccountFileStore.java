@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 
 public class AccountFileStore {
@@ -11,14 +8,18 @@ public class AccountFileStore {
         this.filePath = filePath;
     }
 
+    public boolean isFileEmpty() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+        return br.readLine() == null;
+    }
+
     public void save(List<Account> accounts) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath));
         PrintWriter writer = new PrintWriter(bufferedWriter);
 
         for (Account account: accounts) {
             String entry = account.getNumber();
-
-
 
             if (account.isIllegalNumber()) {
                 entry += "\tILL";
