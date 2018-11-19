@@ -55,7 +55,7 @@ public class AccountNumberParserTest {
         m.setAccessible(true);
         Object o = m.invoke(null, args);
 
-        assertEquals("0", ((Account) o).getNumber());
+        assertEquals("0?", ((Account) o).getNumber());
     }
 
     @Test
