@@ -1,7 +1,9 @@
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
@@ -47,6 +49,48 @@ public class AccountFileStoreTest {
         }
 
         assertTrue(exceptionThrew);
+    }
+
+    @Test
+    public void saveIllegalAccount() throws IOException {
+        String resultPath = "test/results/numbers";
+        AccountFileStore store = new AccountFileStore(resultPath);
+        ArrayList<Account> accounts = new ArrayList<>();
+        accounts.add(new Account("?"));
+
+        store.save(accounts);
+
+        Scanner scanner = new Scanner(new File(resultPath));
+        assertTrue(scanner.nextLine().contains("\tILL"));
+    }
+
+    @Test
+    public void saveInvalidAccount() throws IOException {
+        String resultPath = "test/results/numbers";
+        AccountFileStore store = new AccountFileStore(resultPath);
+        ArrayList<Account> accounts = new ArrayList<>();
+        accounts.add(new Account("000000061"));
+
+        store.save(accounts);
+
+        Scanner scanner = new Scanner(new File(resultPath));
+        assertTrue(scanner.nextLine().contains("\tERR"));
+    }
+
+    @Test
+    public void saveValidAccount() throws IOException {
+        String resultPath = "test/results/numbers";
+        AccountFileStore store = new AccountFileStore(resultPath);
+        ArrayList<Account> accounts = new ArrayList<>();
+        accounts.add(new Account("000000051"));
+
+        store.save(accounts);
+
+        Scanner scanner = new Scanner(new File(resultPath));
+        String line = scanner.nextLine();
+
+        assertFalse(line.contains("\tILL"));
+        assertFalse(line.contains("\tERR"));
     }
 
 }

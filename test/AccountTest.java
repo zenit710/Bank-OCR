@@ -30,17 +30,26 @@ public class AccountTest {
 
     @Test
     public void isIllegalLegalAccountNumber() {
-        String validNumber = "345882865";
-        Account account = new Account(validNumber);
+        String legalNumber = "345882865";
+        Account account = new Account(legalNumber);
 
         assertFalse(account.isIllegalNumber());
     }
 
     @Test
     public void isIllegalIllegalAccountNumber() {
-        String invalidNumber = "2234?6789";
-        Account account = new Account(invalidNumber);
+        String illegalNumber = "2234?6789";
+        Account account = new Account(illegalNumber);
 
         assertTrue(account.isIllegalNumber());
+    }
+
+    @Test
+    public void isValidIllegalAccountNumber() {
+        String illegalNumber = "2234?6789";
+        Account account = new Account(illegalNumber);
+
+        assertTrue(account.isIllegalNumber());
+        assertFalse(account.isValidNumber());
     }
 }
