@@ -1,4 +1,5 @@
 public class Account {
+    public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
 
     public Account(String number) {
@@ -10,10 +11,14 @@ public class Account {
     }
 
     public boolean isIllegalNumber() {
-        return number.contains("?");
+        return number.contains(INVALID_CHARACTER_MARK);
     }
 
     public boolean isValidNumber() {
+        if (isIllegalNumber()) {
+            return false;
+        }
+
         int sum = 0;
         int charIndex = number.length() - 1;
         int position = 1;

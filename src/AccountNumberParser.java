@@ -56,6 +56,8 @@ public class AccountNumberParser {
         for (String number : entry) {
             if (numbersMap.containsKey(number)) {
                 numberString += numbersMap.get(number);
+            } else {
+                numberString += Account.INVALID_CHARACTER_MARK;
             }
         }
 
