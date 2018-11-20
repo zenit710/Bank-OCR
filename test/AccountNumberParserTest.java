@@ -13,16 +13,16 @@ public class AccountNumberParserTest {
     public void parseExistingFile() {
         try {
             ArrayList<Account> expectedAccounts = new ArrayList<>();
-            expectedAccounts.add(new Account("0"));
-            expectedAccounts.add(new Account("1"));
-            expectedAccounts.add(new Account("2"));
-            expectedAccounts.add(new Account("3"));
-            expectedAccounts.add(new Account("4"));
-            expectedAccounts.add(new Account("5"));
-            expectedAccounts.add(new Account("6"));
-            expectedAccounts.add(new Account("7"));
-            expectedAccounts.add(new Account("8"));
-            expectedAccounts.add(new Account("9"));
+            expectedAccounts.add(new Account("0????????"));
+            expectedAccounts.add(new Account("1????????"));
+            expectedAccounts.add(new Account("2????????"));
+            expectedAccounts.add(new Account("3????????"));
+            expectedAccounts.add(new Account("4????????"));
+            expectedAccounts.add(new Account("5????????"));
+            expectedAccounts.add(new Account("6????????"));
+            expectedAccounts.add(new Account("7????????"));
+            expectedAccounts.add(new Account("8????????"));
+            expectedAccounts.add(new Account("9????????"));
 
             ArrayList<Account> accounts = AccountNumberParser.parseFile("test/entries/numbers");
             assertEquals(expectedAccounts.size(), accounts.size());
@@ -55,7 +55,7 @@ public class AccountNumberParserTest {
         m.setAccessible(true);
         Object o = m.invoke(null, args);
 
-        assertEquals("0", ((Account) o).getNumber());
+        assertEquals("0?", ((Account) o).getNumber());
     }
 
     @Test
