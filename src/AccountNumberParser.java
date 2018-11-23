@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -52,16 +53,137 @@ public class AccountNumberParser {
 
     private static Account createAccountFromEntry(String[] entry) {
         String numberString = "";
+        ArrayList<Integer> indexesOfInvalidCharacters = new ArrayList<>();
+        ArrayList<String> invalidNumberString = new ArrayList<>();
+        int index = 0;
 
         for (String number : entry) {
             if (numbersMap.containsKey(number)) {
                 numberString += numbersMap.get(number);
             } else {
+                indexesOfInvalidCharacters.add(index);
+                invalidNumberString.add(number);
                 numberString += Account.INVALID_CHARACTER_MARK;
+            }
+
+            index++;
+        }
+
+        Account account = new Account(numberString);
+        ArrayList<String> allCorrectAccounts = new ArrayList<>();
+
+        int countAllPreviousCorrectNumbers = 0;
+
+        int allOptions = 1;
+        int digitChangeIndexExp = 1;
+
+        for (int i = 0; i < indexesOfInvalidCharacters.size(); i++) {
+            int indexToReplace = indexesOfInvalidCharacters.get(i);
+            System.out.println("Index to replace : " + indexToReplace);
+
+
+            ArrayList<Integer> allCorrectDigits = findCorrectNumbers(invalidNumberString.get(i));
+
+            allOptions *= allCorrectDigits.size();
+            System.out.println("Count options : " + allOptions);
+
+            if (i == 0) {
+                for (int k = 0; k < allCorrectDigits.size(); k++) {
+                    Account acc = new Account(account.getNumber());
+                    acc.replaceCharAt(indexToReplace, allCorrectDigits.get(k));
+                    allCorrectAccounts.add(acc.getNumber());
+                }
+            } else {
+                if (allCorrectAccounts.size() < allOptions) {
+                    int ind = 0;
+                    while (allCorrectAccounts.size() < allOptions) {
+                        String num = allCorrectAccounts.get(ind);
+                        allCorrectAccounts.add(num);
+                        ind++;
+                    }
+                }
+
+                if (allCorrectDigits.size() == 1) digitChangeIndexExp = 0;
+                int digitChangeIndex = (int)Math.pow(2, digitChangeIndexExp++);
+
+                int digitIndex = 0;
+                System.out.println("Digit change index: " + digitChangeIndex);
+
+                for (int numberIndex = 0; numberIndex < allCorrectAccounts.size(); numberIndex++) {
+                    System.out.println(i + "   -> " + allCorrectAccounts.get(numberIndex));
+
+                    if (numberIndex % digitChangeIndex == 0) {
+                        digitIndex++;
+
+                        if (digitIndex >= allCorrectDigits.size()) {
+                            digitIndex = 0;
+                        }
+                    }
+
+                    Account acc = new Account(allCorrectAccounts.get(numberIndex));
+                    acc.replaceCharAt(indexToReplace, allCorrectDigits.get(digitIndex));
+                    allCorrectAccounts.set(numberIndex, acc.getNumber());
+                }
             }
         }
 
-        return new Account(numberString);
+        int i = 0;
+        System.out.println("\n\nWHOLE CORRECT NUMBERS:");
+
+        for (String a : allCorrectAccounts) {
+            System.out.println(a);
+        }
+
+        ArrayList<String> validNumbers = new ArrayList<>();
+
+        for (String number : allCorrectAccounts) {
+            Account acc = new Account(number);
+
+            if (acc.isValidNumber()) {
+                validNumbers.add(acc.getNumber());
+            }
+        }
+
+        if (validNumbers.size() == 1) {
+            account = new Account(validNumbers.get(0));
+            account.setState("OK");
+        } else if (validNumbers.size() > 1) {
+            account.setState("AMB");
+        } else if (validNumbers.size() < 1) {
+            account.setState("ILL");
+        }
+
+        if (!account.isIllegalNumber() && !account.isValidNumber()) {
+            account.setState("ERR");
+        }
+
+        return account;
+    }
+
+    private static ArrayList<Integer> findCorrectNumbers(String numberString) {
+        ArrayList<Integer> correctNumbers = new ArrayList<>();
+
+        for (int i = 0; i < numberString.length(); i++) {
+            char[] numberChars = numberString.toCharArray();
+
+            if (numberChars[i] == '|' || numberChars[i] == '_') {
+                numberChars[i] = ' ';
+            } else if (numberChars[i] == ' ') {
+                if (i == 1 || i == 4 || i == 7) {
+                    numberChars[i] = '_';
+                } else if (i == 3 || i == 5 || i == 6 || i == 8) {
+                    numberChars[i] = '|';
+                }
+            }
+
+            if (numbersMap.containsKey(String.valueOf(numberChars))) {
+                correctNumbers.add(numbersMap.get(String.valueOf(numberChars)));
+            }
+        }
+
+
+
+        return correctNumbers;
     }
 
     private static String[] initEntry() {

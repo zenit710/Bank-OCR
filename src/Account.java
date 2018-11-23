@@ -1,6 +1,7 @@
 public class Account {
     public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
+    private String state;
 
     public Account(String number) {
         this.number = number;
@@ -8,6 +9,20 @@ public class Account {
 
     public String getNumber() {
         return number;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void replaceCharAt(int index, int possibleNumber) {
+        char[] numberChars = number.toCharArray();
+        numberChars[index] = (char)(possibleNumber + 48);
+        number = String.valueOf(numberChars);
     }
 
     public boolean isIllegalNumber() {

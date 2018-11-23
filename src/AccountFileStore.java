@@ -18,14 +18,20 @@ public class AccountFileStore {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath));
         PrintWriter writer = new PrintWriter(bufferedWriter);
 
-        for (Account account: accounts) {
-            String entry = account.getNumber();
+//        for (Account account: accounts) {
+//            String entry = account.getNumber();
+//
+//            if (account.isIllegalNumber()) {
+//                entry += "\tILL";
+//            } else if (!account.isValidNumber()) {
+//                entry += "\tERR";
+//            }
+//
+//            writer.println(entry);
+//        }
 
-            if (account.isIllegalNumber()) {
-                entry += "\tILL";
-            } else if (!account.isValidNumber()) {
-                entry += "\tERR";
-            }
+        for (Account account: accounts) {
+            String entry = account.getNumber() + "\t\t" + account.getState();
 
             writer.println(entry);
         }
