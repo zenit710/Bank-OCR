@@ -1,9 +1,11 @@
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class Account {
     public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
-    private String state = "UNKNOWN";
+    ArrayList<Integer> indexesOfInvalidCharacters;
+    ArrayList<String> allPossibleAccountNumbers;
 
     public Account(String number) {
         this.number = number;
@@ -11,19 +13,6 @@ public class Account {
 
     public String getNumber() {
         return number;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void checkStateByNumber() {
-        if (!isIllegalNumber() && !isValidNumber()) this.state = "ERR";
-        if (isIllegalNumber()) this.state = "ILL";
     }
 
     public void replaceCharAt(int index, int possibleNumber) {

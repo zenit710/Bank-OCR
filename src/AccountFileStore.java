@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountFileStore {
@@ -19,7 +20,24 @@ public class AccountFileStore {
         PrintWriter writer = new PrintWriter(bufferedWriter);
 
         for (Account account: accounts) {
-            String entry = account.getNumber() + "\t\t" + account.getState();
+            String entry = account.getNumber();
+            System.out.println("entry -> " + entry);
+
+            if (!account.isIllegalNumber() && !account.isValidNumber()) {
+                entry += "\t\tERR";
+            } else if (account.isIllegalNumber()) {
+                System.out.println(account.allPossibleAccountNumbers.size());
+                if (account.allPossibleAccountNumbers.size() == 1) {
+                    entry = account.allPossibleAccountNumbers.get(0) + "\t\tOK";
+                } else if (account.allPossibleAccountNumbers.size() > 1) {
+                    entry += "\t\tAMB";
+                } else if (account.allPossibleAccountNumbers.size() < 1) {
+                    entry += "\t\tILL";
+                } else {
+                    entry += "\t\tILL";
+                }
+            }
+
 
             writer.println(entry);
         }

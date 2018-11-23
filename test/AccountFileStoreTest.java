@@ -57,7 +57,6 @@ public class AccountFileStoreTest {
         AccountFileStore store = new AccountFileStore(resultPath);
         ArrayList<Account> accounts = new ArrayList<>();
         Account account = new Account("?");
-        account.checkStateByNumber();
         accounts.add(account);
 
         store.save(accounts);
@@ -72,7 +71,6 @@ public class AccountFileStoreTest {
         AccountFileStore store = new AccountFileStore(resultPath);
         ArrayList<Account> accounts = new ArrayList<>();
         Account account = new Account("000000061");
-        account.checkStateByNumber();
         accounts.add(account);
 
         store.save(accounts);
