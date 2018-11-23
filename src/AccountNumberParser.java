@@ -70,22 +70,25 @@ public class AccountNumberParser {
         }
 
         Account account = new Account(numberString);
-        ArrayList<String> allCorrectAccounts = new ArrayList<>();
 
-        int countAllPreviousCorrectNumbers = 0;
+        ArrayList<String> allCorrectAccounts = findAllPossibleAccountNumbersForIllegalAccount(account, indexesOfInvalidCharacters, invalidNumberString);
+        account = validateAndSetStateOfAccount(account, allCorrectAccounts);
+
+        return account;
+    }
+
+    private static ArrayList<String> findAllPossibleAccountNumbersForIllegalAccount(
+            Account account, ArrayList<Integer> indexesOfInvalidCharacters, ArrayList<String> invalidNumberString) {
+
+        ArrayList<String> allCorrectAccounts = new ArrayList<>();
 
         int allOptions = 1;
         int digitChangeIndexExp = 1;
 
         for (int i = 0; i < indexesOfInvalidCharacters.size(); i++) {
             int indexToReplace = indexesOfInvalidCharacters.get(i);
-            System.out.println("Index to replace : " + indexToReplace);
-
-
             ArrayList<Integer> allCorrectDigits = findCorrectNumbers(invalidNumberString.get(i));
-
             allOptions *= allCorrectDigits.size();
-            System.out.println("Count options : " + allOptions);
 
             if (i == 0) {
                 for (int k = 0; k < allCorrectDigits.size(); k++) {
@@ -105,13 +108,9 @@ public class AccountNumberParser {
 
                 if (allCorrectDigits.size() == 1) digitChangeIndexExp = 0;
                 int digitChangeIndex = (int)Math.pow(2, digitChangeIndexExp++);
-
                 int digitIndex = 0;
-                System.out.println("Digit change index: " + digitChangeIndex);
 
                 for (int numberIndex = 0; numberIndex < allCorrectAccounts.size(); numberIndex++) {
-                    System.out.println(i + "   -> " + allCorrectAccounts.get(numberIndex));
-
                     if (numberIndex % digitChangeIndex == 0) {
                         digitIndex++;
 
@@ -127,13 +126,10 @@ public class AccountNumberParser {
             }
         }
 
-        int i = 0;
-        System.out.println("\n\nWHOLE CORRECT NUMBERS:");
+        return allCorrectAccounts;
+    }
 
-        for (String a : allCorrectAccounts) {
-            System.out.println(a);
-        }
-
+    private static Account validateAndSetStateOfAccount(Account account, ArrayList<String> allCorrectAccounts) {
         ArrayList<String> validNumbers = new ArrayList<>();
 
         for (String number : allCorrectAccounts) {
@@ -151,10 +147,6 @@ public class AccountNumberParser {
             account.setState("AMB");
         } else if (validNumbers.size() < 1) {
             account.setState("ILL");
-        }
-
-        if (!account.isIllegalNumber() && !account.isValidNumber()) {
-            account.setState("ERR");
         }
 
         return account;
@@ -180,8 +172,6 @@ public class AccountNumberParser {
                 correctNumbers.add(numbersMap.get(String.valueOf(numberChars)));
             }
         }
-
-
 
         return correctNumbers;
     }

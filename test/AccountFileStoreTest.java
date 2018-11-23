@@ -56,7 +56,9 @@ public class AccountFileStoreTest {
         String resultPath = "test/results/numbers";
         AccountFileStore store = new AccountFileStore(resultPath);
         ArrayList<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("?"));
+        Account account = new Account("?");
+        account.checkStateByNumber();
+        accounts.add(account);
 
         store.save(accounts);
 
@@ -69,7 +71,9 @@ public class AccountFileStoreTest {
         String resultPath = "test/results/numbers";
         AccountFileStore store = new AccountFileStore(resultPath);
         ArrayList<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("000000061"));
+        Account account = new Account("000000061");
+        account.checkStateByNumber();
+        accounts.add(account);
 
         store.save(accounts);
 

@@ -52,4 +52,13 @@ public class AccountTest {
         assertTrue(account.isIllegalNumber());
         assertFalse(account.isValidNumber());
     }
+
+    @Test
+    public void replaceCharAt() {
+        String illegalNumber = "2234?6789";
+        Account account = new Account(illegalNumber);
+        account.replaceCharAt(4, 0);
+
+        assertEquals("223406789", account.getNumber());
+    }
 }

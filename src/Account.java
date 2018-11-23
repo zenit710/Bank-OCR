@@ -1,7 +1,9 @@
+import java.util.Optional;
+
 public class Account {
     public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
-    private String state;
+    private String state = "UNKNOWN";
 
     public Account(String number) {
         this.number = number;
@@ -19,15 +21,18 @@ public class Account {
         this.state = state;
     }
 
+    public void checkStateByNumber() {
+        if (!isIllegalNumber() && !isValidNumber()) this.state = "ERR";
+        if (isIllegalNumber()) this.state = "ILL";
+    }
+
     public void replaceCharAt(int index, int possibleNumber) {
         char[] numberChars = number.toCharArray();
         numberChars[index] = (char)(possibleNumber + 48);
         number = String.valueOf(numberChars);
     }
 
-    public boolean isIllegalNumber() {
-        return number.contains(INVALID_CHARACTER_MARK);
-    }
+    public boolean isIllegalNumber() { return number.contains(INVALID_CHARACTER_MARK); }
 
     public boolean isValidNumber() {
         if (isIllegalNumber()) {
