@@ -7,6 +7,7 @@ public class Account {
     ArrayList<String> numberDigitsAsStringSymbols = new ArrayList<>();
     ArrayList<Integer> indexesOfInvalidCharacters = new ArrayList<>();
     ArrayList<String> allPossibleAccountNumbers = new ArrayList<>();
+    ArrayList<String> allValidAccountNumbers = new ArrayList<>();
 
     public Account(String number) {
         this.number = number;

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,42 +22,41 @@ public class AccountFileStore {
 
         for (Account account: accounts) {
             String entry = account.getNumber();
-            System.out.println("entry -> " + entry);
 
             if (!account.isIllegalNumber() && !account.isValidNumber()) {
-//                AccountIllegalSymbolValidator validator = new AccountIllegalSymbolValidator();
-//                AccountNumberParser parser = new AccountNumberParser();
-//                int indexOfNumber = 0;
-//
-//                for (String number : account.numberDigitsAsStringSymbols) {
-//                    Account newAccount = account;
-//                    newAccount.indexesOfInvalidCharacters.add(indexOfNumber++);
-//                    ArrayList<String> invalidNumberString = new ArrayList<>();
-//                    invalidNumberString.add(number);
-//
-//                    newAccount = validator.findAllPossibleAccountNumbersForIllegalAccount(newAccount, invalidNumberString, parser.numbersMap);
-//                    System.out.println(newAccount.allPossibleAccountNumbers.size());
-//                }
-//
-//                System.out.println(account.allPossibleAccountNumbers.size());
-//                if (account.allPossibleAccountNumbers.size() == 1) {
-//                    entry = account.allPossibleAccountNumbers.get(0) + "\t\tOK";
-//                } else if (account.allPossibleAccountNumbers.size() > 1) {
-//                    entry += "\t\tAMB";
-//                } else if (account.allPossibleAccountNumbers.size() < 1) {
-//                    entry += "\t\tILL";
-//                } else {
-//                    entry += "\t\tILL";
-//                }
+                AccountIllegalSymbolValidator validator = new AccountIllegalSymbolValidator();
+                AccountNumberParser parser = new AccountNumberParser();
 
-                entry += "\t\tERR";
-            } else if (account.isIllegalNumber()) {
-//                System.out.println(account.allPossibleAccountNumbers.size());
-                if (account.allPossibleAccountNumbers.size() == 1) {
-                    entry = account.allPossibleAccountNumbers.get(0) + "\t\tOK";
-                } else if (account.allPossibleAccountNumbers.size() > 1) {
+                for (int i = 0; i < account.numberDigitsAsStringSymbols.size(); i++) {
+                    Account newAccount = account;
+                    newAccount.indexesOfInvalidCharacters.clear();
+                    newAccount.indexesOfInvalidCharacters.add(i);
+
+                    ArrayList<String> invalidNumberString = new ArrayList<>();
+                    invalidNumberString.add(account.numberDigitsAsStringSymbols.get(i));
+
+                    newAccount = validator.findAllPossibleAccountNumbersForIllegalAccount(newAccount, invalidNumberString, parser.numbersMap);
+
+
+                    account.allValidAccountNumbers = newAccount.allValidAccountNumbers;
+                }
+
+                if (account.allValidAccountNumbers.size() == 1) {
+                    entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
+                } else if (account.allValidAccountNumbers.size() > 1) {
                     entry += "\t\tAMB";
-                } else if (account.allPossibleAccountNumbers.size() < 1) {
+                } else if (account.allValidAccountNumbers.size() < 1) {
+                    entry += "\t\tILL";
+                } else {
+                    entry += "\t\tERR";
+                }
+
+            } else if (account.isIllegalNumber()) {
+                if (account.allValidAccountNumbers.size() == 1) {
+                    entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
+                } else if (account.allValidAccountNumbers.size() > 1) {
+                    entry += "\t\tAMB";
+                } else if (account.allValidAccountNumbers.size() < 1) {
                     entry += "\t\tILL";
                 } else {
                     entry += "\t\tILL";

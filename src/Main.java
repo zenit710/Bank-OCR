@@ -5,9 +5,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            ArrayList<Account> accounts = AccountNumberParser.parseFile("entries/us4");
+            ArrayList<Account> accounts = AccountNumberParser.parseFile("entries/test");
 
-            AccountFileStore store = new AccountFileStore("results/us4");
+            AccountFileStore store = new AccountFileStore("results/test");
             store.save(accounts);
 
             for (Account account: accounts) {

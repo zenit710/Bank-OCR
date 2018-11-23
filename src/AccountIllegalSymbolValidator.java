@@ -53,6 +53,14 @@ public class AccountIllegalSymbolValidator {
         }
 
         account.allPossibleAccountNumbers = allPossibleAccountNumbers;
+
+        for (String n : account.allPossibleAccountNumbers) {
+            Account a = new Account(n);
+            if (!a.isIllegalNumber() && a.isValidNumber()) {
+                account.allValidAccountNumbers.add(n);
+            }
+        }
+
         return account;
     }
 
