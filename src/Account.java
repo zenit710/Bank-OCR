@@ -4,8 +4,9 @@ import java.util.Optional;
 public class Account {
     public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
-    ArrayList<Integer> indexesOfInvalidCharacters;
-    ArrayList<String> allPossibleAccountNumbers;
+    ArrayList<String> numberDigitsAsStringSymbols = new ArrayList<>();
+    ArrayList<Integer> indexesOfInvalidCharacters = new ArrayList<>();
+    ArrayList<String> allPossibleAccountNumbers = new ArrayList<>();
 
     public Account(String number) {
         this.number = number;

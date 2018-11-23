@@ -20,7 +20,7 @@ public class AccountNumberParser {
     private final static int numberLines = 4;
     private final static int accountNumberLength = 9;
 
-    private static HashMap<String, Integer> numbersMap = createNumbersMap();
+    public static HashMap<String, Integer> numbersMap = createNumbersMap();
 
     public static ArrayList<Account> parseFile(String filePath) throws IOException {
         ArrayList<Account> accounts = new ArrayList<>();
@@ -53,11 +53,14 @@ public class AccountNumberParser {
 
     private static Account createAccountFromEntry(String[] entry) {
         String numberString = "";
+        ArrayList<String> numberDigitsAsStringSymbols = new ArrayList<>();
         ArrayList<Integer> indexesOfInvalidCharacters = new ArrayList<>();
         ArrayList<String> invalidNumberString = new ArrayList<>();
         int index = 0;
 
         for (String number : entry) {
+            numberDigitsAsStringSymbols.add(number);
+
             if (numbersMap.containsKey(number)) {
                 numberString += numbersMap.get(number);
             } else {
@@ -71,6 +74,7 @@ public class AccountNumberParser {
 
         Account account = new Account(numberString);
         account.indexesOfInvalidCharacters = indexesOfInvalidCharacters;
+        account.numberDigitsAsStringSymbols = numberDigitsAsStringSymbols;
 
         AccountIllegalSymbolValidator validator = new AccountIllegalSymbolValidator();
         account = validator.findAllPossibleAccountNumbersForIllegalAccount(account, invalidNumberString, numbersMap);
