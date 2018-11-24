@@ -1,4 +1,6 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountFileStore {
@@ -21,11 +23,41 @@ public class AccountFileStore {
         for (Account account: accounts) {
             String entry = account.getNumber();
 
-            if (account.isIllegalNumber()) {
-                entry += "\tILL";
-            } else if (!account.isValidNumber()) {
-                entry += "\tERR";
+            if (!account.isIllegalNumber() && !account.isValidNumber()) {
+                AccountIllegalSymbolValidator validator = new AccountIllegalSymbolValidator();
+                AccountNumberParser parser = new AccountNumberParser();
+
+                for (int i = 0; i < account.numberDigitsAsStringSymbols.size(); i++) {
+                    Account newAccount = account;
+                    newAccount.indexesOfInvalidCharacters.clear();
+                    newAccount.indexesOfInvalidCharacters.add(i);
+
+                    ArrayList<String> invalidNumberString = new ArrayList<>();
+                    invalidNumberString.add(account.numberDigitsAsStringSymbols.get(i));
+
+                    newAccount = validator.findAllPossibleAccountNumbersForIllegalAccount(newAccount, invalidNumberString, parser.numbersMap);
+
+                    account.allValidAccountNumbers = newAccount.allValidAccountNumbers;
+                }
+
+                if (account.allValidAccountNumbers.size() == 1) {
+                    entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
+                } else if (account.allValidAccountNumbers.size() > 1) {
+                    entry += "\t\tAMB";
+                } else {
+                    entry += "\t\tERR";
+                }
+
+            } else if (account.isIllegalNumber()) {
+                if (account.allValidAccountNumbers.size() == 1) {
+                    entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
+                } else if (account.allValidAccountNumbers.size() > 1) {
+                    entry += "\t\tAMB";
+                } else {
+                    entry += "\t\tILL";
+                }
             }
+
 
             writer.println(entry);
         }

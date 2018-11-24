@@ -1,6 +1,13 @@
+import java.util.ArrayList;
+import java.util.Optional;
+
 public class Account {
     public final static String INVALID_CHARACTER_MARK = "?";
     private String number;
+    ArrayList<String> numberDigitsAsStringSymbols = new ArrayList<>();
+    ArrayList<Integer> indexesOfInvalidCharacters = new ArrayList<>();
+    ArrayList<String> allPossibleAccountNumbers = new ArrayList<>();
+    ArrayList<String> allValidAccountNumbers = new ArrayList<>();
 
     public Account(String number) {
         this.number = number;
@@ -10,9 +17,13 @@ public class Account {
         return number;
     }
 
-    public boolean isIllegalNumber() {
-        return number.contains(INVALID_CHARACTER_MARK);
+    public void replaceCharAt(int index, int possibleNumber) {
+        char[] numberChars = number.toCharArray();
+        numberChars[index] = (char)(possibleNumber + 48);
+        number = String.valueOf(numberChars);
     }
+
+    public boolean isIllegalNumber() { return number.contains(INVALID_CHARACTER_MARK); }
 
     public boolean isValidNumber() {
         if (isIllegalNumber()) {
