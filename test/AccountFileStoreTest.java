@@ -70,7 +70,7 @@ public class AccountFileStoreTest {
         String resultPath = "test/results/numbers";
         AccountFileStore store = new AccountFileStore(resultPath);
         ArrayList<Account> accounts = new ArrayList<>();
-        Account account = new Account("000000061");
+        Account account = new Account("444444444");
         accounts.add(account);
 
         store.save(accounts);

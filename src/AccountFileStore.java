@@ -37,7 +37,6 @@ public class AccountFileStore {
 
                     newAccount = validator.findAllPossibleAccountNumbersForIllegalAccount(newAccount, invalidNumberString, parser.numbersMap);
 
-
                     account.allValidAccountNumbers = newAccount.allValidAccountNumbers;
                 }
 
@@ -45,8 +44,6 @@ public class AccountFileStore {
                     entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
                 } else if (account.allValidAccountNumbers.size() > 1) {
                     entry += "\t\tAMB";
-                } else if (account.allValidAccountNumbers.size() < 1) {
-                    entry += "\t\tILL";
                 } else {
                     entry += "\t\tERR";
                 }
@@ -56,8 +53,6 @@ public class AccountFileStore {
                     entry = account.allValidAccountNumbers.get(0) + "\t\tOK";
                 } else if (account.allValidAccountNumbers.size() > 1) {
                     entry += "\t\tAMB";
-                } else if (account.allValidAccountNumbers.size() < 1) {
-                    entry += "\t\tILL";
                 } else {
                     entry += "\t\tILL";
                 }
